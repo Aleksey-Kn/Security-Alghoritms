@@ -27,17 +27,17 @@ public class SpecialMath {
         return result.mod(BigInteger.valueOf(p)).intValue();
     }
 
-    public static long nod(long a, long b){
+    public static int nod(int a, int b){
         if(b > a){
-            long t = a;
+            int t = a;
             a = b;
             b = t;
         }
-        long q;
+        int q;
 
-        long[] u = new long[3];
-        long[] v = new long[3];
-        long[] t = new long[3];
+        int[] u = new int[3];
+        int[] v = new int[3];
+        int[] t = new int[3];
 
         u[0] = a;
         u[1] = 1;

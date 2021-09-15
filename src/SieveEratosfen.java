@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class SieveEratosfen {
     private final static SieveEratosfen instance = new SieveEratosfen();
-    private final boolean[] b = new boolean[2106589167]; // экспериментально полученная максимально допустимая длинна массива
+    private final boolean[] b = new boolean[2_100_000_000]; // 2106589167 -- максимальное
     private final Random random;
 
     private SieveEratosfen(){
