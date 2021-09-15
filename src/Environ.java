@@ -1,0 +1,33 @@
+import java.util.Random;
+
+public class Environ {
+    private static final Environ instance = new Environ();
+    private int q, p, g;
+
+    private Environ(){
+        Random random = new Random();
+        do{
+            q = SieveEratosfen.getInstance().randomPrime(2, 1_000_000_000);
+            p = 2 * q + 1;
+        } while (!SieveEratosfen.getInstance().isPrime(p));
+        do{
+            g = Math.abs(random.nextInt()) % (p - 2) + 1;
+        } while (SpecialMath.powOnModule(g, q, p) == 1);
+    }
+
+    public int getQ() {
+        return q;
+    }
+
+    public int getP() {
+        return p;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public static Environ getInstance() {
+        return instance;
+    }
+}
