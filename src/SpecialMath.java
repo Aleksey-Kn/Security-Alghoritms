@@ -1,6 +1,7 @@
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-import java.util.function.UnaryOperator;
 
 public class SpecialMath {
     public static double log2(int v) {
@@ -8,6 +9,8 @@ public class SpecialMath {
     }
 
     public static int powOnModule(int a, int x, int p) {
+        if(x == 0)
+            return 1;
         int lim = (int)log2(x) + 1;
         long[] intermediate = new long[lim];
         BigInteger result = BigInteger.ONE;
@@ -64,5 +67,21 @@ public class SpecialMath {
         int y = powOnModule(Environ.getInstance().getG(), x, Environ.getInstance().getP());
         z.setX(x);
         return y;
+    }
+
+    public static int steps(int a, int p, int y){
+        int m = (int)Math.ceil(Math.sqrt(p));
+        Map<Integer, Integer> map = new HashMap<>(m);
+        for(int j = 0; j < m; j++){
+            map.put(BigInteger.valueOf(powOnModule(a, j, p))
+                    .multiply(BigInteger.valueOf(y % p))
+                    .mod(BigInteger.valueOf(p)).intValue(), j);
+        }
+        for(int i = 1, t; i <= m; i++){
+            t = powOnModule(a, i * m, p);
+            if(map.containsKey(t))
+                return i * m - map.get(t);
+        }
+        return -1;
     }
 }
