@@ -33,8 +33,8 @@ public class SieveEratosfen {
         random = new Random();
     }
 
-    public boolean isPrime(int v){
-        return b[v];
+    public boolean isNotPrime(int v){
+        return !b[v];
     }
 
     private int positiveRandom(){
@@ -44,7 +44,7 @@ public class SieveEratosfen {
     public int randomPrime(int min, int max){
         int delta = max - min;
         int now = positiveRandom() % delta + min;
-        while (!isPrime(now)){
+        while (isNotPrime(now)){
             now = positiveRandom() % delta + min;
         }
         return now;
@@ -52,7 +52,7 @@ public class SieveEratosfen {
 
     public int randomPrime(){
         int now = positiveRandom();
-        while (!isPrime(now)){
+        while (isNotPrime(now)){
             now = positiveRandom();
         }
         return now;

@@ -9,7 +9,7 @@ public class Environ {
         do{
             q = SieveEratosfen.getInstance().randomPrime(2, 1_000_000_000);
             p = 2 * q + 1;
-        } while (!SieveEratosfen.getInstance().isPrime(p));
+        } while (SieveEratosfen.getInstance().isNotPrime(p));
         do{
             g = Math.abs(random.nextInt()) % (p - 2) + 1;
         } while (SpecialMath.powOnModule(g, q, p) == 1);
