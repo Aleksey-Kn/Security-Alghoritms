@@ -7,9 +7,9 @@ public class Environ {
     private Environ(){
         Random random = new Random();
         do{
-            q = SieveEratosfen.getInstance().randomPrime(2, 1_000_000_000);
+            q = PrimeNumber.getInstance().randomPrime(2, 1_000_000_000);
             p = 2 * q + 1;
-        } while (SieveEratosfen.getInstance().isNotPrime(p));
+        } while (PrimeNumber.getInstance().isNotPrime(p));
         do{
             g = Math.abs(random.nextInt()) % (p - 2) + 1;
         } while (SpecialMath.powOnModule(g, q, p) == 1);

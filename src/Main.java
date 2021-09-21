@@ -52,9 +52,9 @@ public class Main {
                         if (scanner.nextInt() == 1) {
                             data = readFile(scanner);
                         } else {
-                            data = new int[]{random(), SieveEratosfen.getInstance().randomPrime(), random()};
+                            data = new int[]{random(), PrimeNumber.getInstance().randomPrime(), random()};
                             while (data[2] >= data[1] || SpecialMath.nod(data[1], data[2]) != 1) {
-                                data[1] = SieveEratosfen.getInstance().randomPrime();
+                                data[1] = PrimeNumber.getInstance().randomPrime();
                                 data[2] = random();
                             }
                         }
