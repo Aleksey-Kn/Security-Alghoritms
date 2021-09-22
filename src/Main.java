@@ -66,7 +66,7 @@ public class Main {
                         flag = false;
                 }
             } catch (Exception e){
-                System.out.println("\nНекорректный ввод! Вы не слишком умный пользователь!\n");
+                System.out.println("\nНекорректный ввод!\n");
             }
         }
     }

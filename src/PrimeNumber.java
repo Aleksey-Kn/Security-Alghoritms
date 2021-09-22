@@ -9,7 +9,7 @@ public class PrimeNumber {
     }
 
     public boolean isNotPrime(int v){
-        return (v > 1 && (v == 2 || SpecialMath.powOnModule(v + 1, v - 1, v) != 1));
+        return (v > 1 && SpecialMath.powOnModule(v + 1, v - 1, v) != 1);
     }
 
     private int positiveRandom(){
