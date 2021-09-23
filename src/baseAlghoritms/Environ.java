@@ -11,7 +11,7 @@ public class Environ {
         do{
             q = PrimeNumber.getInstance().randomPrime(2, 1_000_000_000);
             p = 2 * q + 1;
-        } while (PrimeNumber.getInstance().isNotPrime(p));
+        } while (PrimeNumber.getInstance().isNotPrime(p) || p < 256);
         do{
             g = Math.abs(random.nextInt()) % (p - 2) + 1;
         } while (SpecialMath.powOnModule(g, q, p) == 1);

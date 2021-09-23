@@ -6,10 +6,11 @@ import baseAlghoritms.SpecialMath;
 import java.util.Random;
 
 public class Shamir {
+    private int c, d;
+
     public Shamir(){
         Random random = new Random();
         int p = Environ.getInstance().getP();
-        int c, d;
         int[] t;
         do {
             c = random.nextInt();
