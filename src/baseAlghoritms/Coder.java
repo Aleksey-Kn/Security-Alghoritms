@@ -1,3 +1,5 @@
+package baseAlghoritms;
+
 public class Coder {
     private final int p = Environ.getInstance().getP();
     private int x;

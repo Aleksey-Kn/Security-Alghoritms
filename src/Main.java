@@ -1,3 +1,7 @@
+import baseAlghoritms.Coder;
+import baseAlghoritms.PrimeNumber;
+import baseAlghoritms.SpecialMath;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -36,7 +40,7 @@ public class Main {
                         } else
                             data = new int[]{random(), random()};
                         System.out.printf("a = %d, b = %d\n", data[0], data[1]);
-                        result = SpecialMath.nod(data[0], data[1]);
+                        result = SpecialMath.nod(data[0], data[1])[0];
                         System.out.println("мнд: " + result);
                         break;
                     case 3:
@@ -53,7 +57,7 @@ public class Main {
                             data = readFile(scanner);
                         } else {
                             data = new int[]{random(), PrimeNumber.getInstance().randomPrime(), random()};
-                            while (data[2] >= data[1] || SpecialMath.nod(data[1], data[2]) != 1) {
+                            while (data[2] >= data[1] || SpecialMath.nod(data[1], data[2])[0] != 1) {
                                 data[1] = PrimeNumber.getInstance().randomPrime();
                                 data[2] = random();
                             }

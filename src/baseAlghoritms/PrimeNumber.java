@@ -1,3 +1,5 @@
+package baseAlghoritms;
+
 import java.util.Random;
 
 public class PrimeNumber {

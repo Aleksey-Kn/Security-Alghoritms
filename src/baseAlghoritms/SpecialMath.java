@@ -1,3 +1,5 @@
+package baseAlghoritms;
+
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +29,7 @@ public class SpecialMath {
         return result.mod(BigInteger.valueOf(p)).intValue();
     }
 
-    public static int nod(int a, int b){
+    public static int[] nod(int a, int b){
         if(b > a){
             int t = a;
             a = b;
@@ -55,7 +57,7 @@ public class SpecialMath {
             v = t.clone();
         } while (t[0] != 0);
 
-        return u[0];
+        return u;
     }
 
     public static int diffihellman(Coder z){
