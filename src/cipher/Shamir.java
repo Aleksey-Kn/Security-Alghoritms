@@ -1,12 +1,15 @@
-package shifrs;
+package cipher;
 
 import baseAlghoritms.Environ;
 import baseAlghoritms.SpecialMath;
 
+import java.math.BigInteger;
 import java.util.Random;
 
 public class Shamir {
-    private int c, d, p;
+    private int c;
+    private int d;
+    private final int p;
 
     public Shamir(){
         Random random = new Random();
@@ -14,11 +17,15 @@ public class Shamir {
         int[] t;
         do {
             do {
-                c = Math.abs(random.nextInt()) % (p - 1) + 1;
+                c = Math.abs(random.nextInt());
                 t = SpecialMath.nod(c, p - 1);
             } while (t[0] != 1);
             d = t[1];
-        } while (d <= 0 || d >= p);
+            if(d < 0)
+                d = d % (p - 1) + (p - 1);
+        } while (BigInteger.valueOf(c).multiply(BigInteger.valueOf(d))
+                        .mod(BigInteger.valueOf(p - 1)).intValue() != 1);
+        System.out.printf("p = %d, c = %d, d = %d", p, c, d);
     }
 
     public int encoding(byte m){
