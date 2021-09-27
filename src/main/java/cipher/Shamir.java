@@ -25,7 +25,6 @@ public class Shamir {
                 d = d % (p - 1) + (p - 1);
         } while (BigInteger.valueOf(c).multiply(BigInteger.valueOf(d))
                         .mod(BigInteger.valueOf(p - 1)).intValue() != 1);
-        System.out.printf("p = %d, c = %d, d = %d", p, c, d);
     }
 
     public int encoding(byte m){
