@@ -19,7 +19,8 @@ public class ElGamal {
         publicKey = SpecialMath.powOnModule(g, c, p);
     }
 
-    public int[] encoding(byte m) {
+    public int[] encoding(byte message) {
+        int m = message + 255;
         int k = Math.abs(random.nextInt()) % (p - 2) + 1;
         int r = SpecialMath.powOnModule(g, k, p);
         int e = BigInteger.valueOf(m % p)
@@ -29,9 +30,9 @@ public class ElGamal {
     }
 
     public byte decoding(int[] data) {
-        return BigInteger.valueOf(data[1] % p)
+        return (byte) (BigInteger.valueOf(data[1] % p)
                 .multiply(BigInteger.valueOf(SpecialMath.powOnModule(data[0], p - 1 - c, p)))
-                .mod(BigInteger.valueOf(p)).byteValue();
+                .mod(BigInteger.valueOf(p)).shortValue() - 255);
     }
 
     public int getPublicKey() {

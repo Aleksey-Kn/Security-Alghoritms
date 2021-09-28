@@ -27,7 +27,8 @@ public class Shamir {
                         .mod(BigInteger.valueOf(p - 1)).intValue() != 1);
     }
 
-    public int encoding(byte m){
+    public int encoding(byte message){
+        int m = message + 255;
         return SpecialMath.powOnModule(m, c, p);
     }
 
@@ -40,6 +41,6 @@ public class Shamir {
     }
 
     public byte decoding(int x3){
-        return (byte) SpecialMath.powOnModule(x3, d, p);
+        return (byte) (SpecialMath.powOnModule(x3, d, p) - 255);
     }
 }
