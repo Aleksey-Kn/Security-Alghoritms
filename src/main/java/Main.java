@@ -1,6 +1,7 @@
 import cipher.ElGamal;
 import cipher.RSA;
 import cipher.Shamir;
+import cipher.Vernam;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -22,6 +23,7 @@ public class Main {
             System.out.println("1. Шамир");
             System.out.println("2. Эль-Гамаль");
             System.out.println("3. RSA");
+            System.out.println("4. Вернам");
             try {
                 switch (Integer.parseInt(scanner.next())) {
                     case 1:
@@ -73,6 +75,21 @@ public class Main {
                         outputStream = new FileOutputStream(decodingName);
                         while (inputStream.available() > 0) {
                             outputStream.write(s.decoding(f.encoding((byte)inputStream.read())));
+                        }
+                        inputStream.close();
+                        outputStream.close();
+                        System.out.println("Equals file: " +
+                                FileUtils.contentEquals(new File(fileName), new File(decodingName)));
+                        break;
+                    case 4:
+                        System.out.print("File name: ");
+                        fileName = scanner.next();
+                        decodingName = "Decoding" + fileName;
+                        Vernam vernam = new Vernam();
+                        inputStream = new FileInputStream(fileName);
+                        outputStream = new FileOutputStream(decodingName);
+                        while (inputStream.available() > 0) {
+                            outputStream.write(Vernam.decoding(vernam.encoding((byte)inputStream.read())));
                         }
                         inputStream.close();
                         outputStream.close();
