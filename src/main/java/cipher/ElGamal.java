@@ -3,7 +3,6 @@ package cipher;
 import baseAlghoritms.Environ;
 import baseAlghoritms.SpecialMath;
 
-import java.math.BigInteger;
 import java.util.Random;
 
 public class ElGamal {
@@ -23,16 +22,12 @@ public class ElGamal {
         int m = message + 255;
         int k = Math.abs(random.nextInt()) % (p - 2) + 1;
         int r = SpecialMath.powOnModule(g, k, p);
-        int e = BigInteger.valueOf(m % p)
-                .multiply(BigInteger.valueOf(SpecialMath.powOnModule(otherKey, k, p)))
-                .mod(BigInteger.valueOf(p)).intValue();
+        int e = (int) ((long)(m % p) * SpecialMath.powOnModule(otherKey, k, p) % p);
         return new int[]{r, e};
     }
 
     public byte decoding(int[] data) {
-        return (byte) (BigInteger.valueOf(data[1] % p)
-                .multiply(BigInteger.valueOf(SpecialMath.powOnModule(data[0], p - 1 - c, p)))
-                .mod(BigInteger.valueOf(p)).shortValue() - 255);
+        return (byte) ((long)(data[1] % p) * SpecialMath.powOnModule(data[0], p - 1 - c, p) % p - 255);
     }
 
     public int getPublicKey() {
