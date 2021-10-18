@@ -3,6 +3,8 @@ package hashFunction;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
@@ -10,10 +12,12 @@ public class HashFile implements Iterable<Byte>{
     private final byte[] data;
     private int nowState = 0;
 
-    HashFile(File file) throws IOException {
+    HashFile(File file) throws IOException, NoSuchAlgorithmException {
         FileInputStream fileInputStream = new FileInputStream(file);
-        data = new byte[fileInputStream.available()];
-        fileInputStream.read(data);
+        byte[] temp = new byte[fileInputStream.available()];
+        fileInputStream.read(temp);
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        data = digest.digest(temp);
     }
 
     @Override
