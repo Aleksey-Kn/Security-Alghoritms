@@ -5,14 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
-import java.util.function.Consumer;
+import java.util.Arrays;
 
-public class HashFile implements Iterable<Byte>{
+public class HashFile{
     private final byte[] data;
-    private int nowState = 0;
 
-    HashFile(File file) throws IOException, NoSuchAlgorithmException {
+    public HashFile(File file) throws IOException, NoSuchAlgorithmException {
         FileInputStream fileInputStream = new FileInputStream(file);
         byte[] temp = new byte[fileInputStream.available()];
         fileInputStream.read(temp);
@@ -20,25 +18,11 @@ public class HashFile implements Iterable<Byte>{
         data = digest.digest(temp);
     }
 
-    @Override
-    public Iterator<Byte> iterator() {
-        return new Iterator<Byte>() {
-            @Override
-            public boolean hasNext() {
-                return nowState < data.length;
-            }
-
-            @Override
-            public Byte next() {
-                return data[nowState++];
-            }
-        };
+    public byte[] getData() {
+        return data;
     }
 
-    @Override
-    public void forEach(Consumer<? super Byte> action) {
-        for(byte b: data){
-            action.accept(b);
-        }
+    public boolean validHash(byte[] hash){
+        return Arrays.equals(hash, data);
     }
 }
