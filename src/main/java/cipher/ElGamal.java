@@ -3,6 +3,7 @@ package cipher;
 import baseAlghoritms.Environ;
 import baseAlghoritms.SpecialMath;
 import hashFunction.HashFile;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.Random;
 
@@ -39,11 +40,11 @@ public class ElGamal {
             do {
                 k = Math.abs(random.nextInt()) % (p - 2) + 1;
                 arr = SpecialMath.nod(k, p - 1);
-            } while (arr[0] != 1);
-            inversion = (arr[1] > 0 ? arr[1] : arr[1] % (p - 1) + (p - 1));
+                inversion = (arr[1] > 0 ? arr[1] : arr[1] % (p - 1) + (p - 1));
+            } while (arr[0] != 1 || (long) k * inversion % (p - 1) != 1);
             r = SpecialMath.powOnModule(g, k, p);
-            u = (int)((hashFile.getData()[i] - (long)c * r) % (p - 1));
-            if(u < 0)
+            u = (int) ((hashFile.getData()[i] - (long) c * r) % (p - 1));
+            if (u < 0)
                 u += p - 1;
             s = inversion * u % (p - 1);
             result[i][0] = r;
@@ -52,9 +53,9 @@ public class ElGamal {
         return result;
     }
 
-    public int[] decodingHash(int[][] encoding){
+    public int[] decodingHash(int[][] encoding) {
         int[] result = new int[encoding.length];
-        for(int i = 0; i < result.length; i++){
+        for (int i = 0; i < result.length; i++) {
             result[i] = (int) ((Math.pow(otherKey, encoding[i][0]) * Math.pow(encoding[i][0], encoding[i][1])) % p);
         }
         return result;
