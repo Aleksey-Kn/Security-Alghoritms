@@ -54,7 +54,7 @@ public class RSA {
     public int[] encodingHash(HashFile hashFile){
         int[] result = new int[hashFile.getData().length];
         for (int i = 0; i < result.length; i++){
-            result[i] = SpecialMath.powOnModule(hashFile.getData()[i] + 255, c, n);
+            result[i] = SpecialMath.powOnModule(hashFile.getData()[i], c, n);
         }
         return result;
     }
@@ -62,7 +62,7 @@ public class RSA {
     public byte[] decodingHash(Integer[] encoding){
         byte[] result = new byte[encoding.length];
         for(int i = 0; i < encoding.length; i++){
-            result[i] = (byte) (SpecialMath.powOnModule(encoding[i], otherKey, otherN) - 255);
+            result[i] = (byte) SpecialMath.powOnModule(encoding[i], otherKey, otherN);
         }
         return result;
     }
