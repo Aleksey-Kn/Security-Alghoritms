@@ -1,5 +1,6 @@
 package hashFunction;
 
+import baseAlghoritms.SpecialMath;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
@@ -8,7 +9,6 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.function.UnaryOperator;
 
 public class HashFile{
     private final byte[] data;
@@ -32,8 +32,8 @@ public class HashFile{
         return Arrays.equals(decodingData, data);
     }
 
-    public boolean validHash(byte[] decodingData, UnaryOperator<Byte> operator){
+    public boolean validHashElGamal(int[] decodingData, int g, int p){
         return Arrays.equals(decodingData,
-                ArrayUtils.toPrimitive(Arrays.stream(ArrayUtils.toObject(data)).map(operator).toArray(Byte[]::new)));
+                Arrays.stream(ArrayUtils.toObject(data)).mapToInt(h -> SpecialMath.powOnModule(g, h, p)).toArray());
     }
 }

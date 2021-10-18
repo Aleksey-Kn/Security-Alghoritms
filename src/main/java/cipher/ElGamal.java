@@ -52,10 +52,10 @@ public class ElGamal {
         return result;
     }
 
-    public byte[] decodingHash(int[][] encoding){
-        byte[] result = new byte[encoding.length];
+    public int[] decodingHash(int[][] encoding){
+        int[] result = new int[encoding.length];
         for(int i = 0; i < result.length; i++){
-            result[i] = (byte)(Math.pow(otherKey, encoding[i][0]) * Math.pow(encoding[i][0], encoding[i][1]));
+            result[i] = (int) ((Math.pow(otherKey, encoding[i][0]) * Math.pow(encoding[i][0], encoding[i][1])) % p);
         }
         return result;
     }

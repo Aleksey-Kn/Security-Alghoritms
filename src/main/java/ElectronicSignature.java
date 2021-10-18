@@ -109,8 +109,11 @@ public class ElectronicSignature {
                         fileScanner.close();
 
                         System.out.println("Valid signature: " +
-                                new HashFile(new File(fileName)).validHash(elGamal1.decodingHash(list1.toArray(int[][]::new)),
-                                (l -> (byte)SpecialMath.powOnModule(elGamal1.getG(), l, elGamal1.getP()))));
+                                new HashFile(new File(fileName))
+                                        .validHashElGamal(elGamal1
+                                                .decodingHash(list1.toArray(int[][]::new)),
+                                                elGamal1.getG(),
+                                                elGamal1.getP()));
                         break;
                     case 0:
                         flag = false;
