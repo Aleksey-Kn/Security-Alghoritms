@@ -39,7 +39,7 @@ public class ElGamal {
             do {
                 k = Math.abs(random.nextInt()) % (p - 2) + 1;
                 arr = SpecialMath.nod(k, p - 1);
-            } while (arr[0] == 1);
+            } while (arr[0] != 1);
             inversion = (arr[1] > 0 ? arr[1] : arr[1] % (p - 1) + (p - 1));
             r = SpecialMath.powOnModule(g, k, p);
             u = (int)((hashFile.getData()[i] - (long)c * r) % (p - 1));
