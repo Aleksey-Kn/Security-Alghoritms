@@ -1,10 +1,12 @@
 import baseAlghoritms.SpecialMath;
 import cipher.ElGamal;
+import cipher.Gost;
 import cipher.RSA;
 import hashFunction.HashFile;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -23,6 +25,8 @@ public class ElectronicSignature {
             System.out.println("2. Проверка подписи RSA");
             System.out.println("3. Подпись Эль-Гамаль");
             System.out.println("4. Проверка подписи Эль-Гамаль");
+            System.out.println("5. Подпсь ГОСТ");
+            System.out.println("6. Проверка подписи ГОСТ");
             try {
                 switch (Integer.parseInt(scanner.next())) {
                     case 1:
@@ -32,7 +36,7 @@ public class ElectronicSignature {
                         System.out.print("Save signature to file: ");
                         signatureName = scanner.next();
                         fileWriter = new FileWriter(signatureName);
-                        for(int i: rsa.encodingHash(new HashFile(new File(fileName)))){
+                        for (int i : rsa.encodingHash(new HashFile(new File(fileName)))) {
                             fileWriter.write(i + "\n");
                         }
                         fileWriter.close();
@@ -57,7 +61,7 @@ public class ElectronicSignature {
 
                         LinkedList<Integer> list = new LinkedList<>();
                         fileScanner = new Scanner(new File(signatureName));
-                        while (fileScanner.hasNextInt()){
+                        while (fileScanner.hasNextInt()) {
                             list.add(fileScanner.nextInt());
                         }
                         fileScanner.close();
@@ -79,7 +83,7 @@ public class ElectronicSignature {
                         fileWriter.close();
 
                         fileWriter = new FileWriter(signatureName);
-                        for(int[] i: elGamal.encodingHash(new HashFile(new File(fileName)))){
+                        for (int[] i : elGamal.encodingHash(new HashFile(new File(fileName)))) {
                             fileWriter.write(i[0] + "\n");
                             fileWriter.write(i[1] + "\n");
                         }
@@ -101,7 +105,7 @@ public class ElectronicSignature {
                         fileScanner = new Scanner(new File(signatureName));
                         LinkedList<int[]> list1 = new LinkedList<>();
                         int[] temp;
-                        while (fileScanner.hasNextInt()){
+                        while (fileScanner.hasNextInt()) {
                             temp = new int[2];
                             temp[0] = fileScanner.nextInt();
                             temp[1] = fileScanner.nextInt();
@@ -112,14 +116,63 @@ public class ElectronicSignature {
                         System.out.println("Valid signature: " +
                                 new HashFile(new File(fileName))
                                         .validHashElGamal(elGamal1
-                                                .decodingHash(list1.toArray(int[][]::new)),
+                                                        .decodingHash(list1.toArray(int[][]::new)),
                                                 elGamal1.getG(),
                                                 elGamal1.getP()));
+                        break;
+                    case 5:
+                        Gost gost = new Gost();
+                        System.out.print("File name: ");
+                        fileName = scanner.next();
+                        System.out.print("Save signature to file: ");
+                        signatureName = scanner.next();
+                        System.out.print("Save keys user to file: ");
+                        fileWriter = new FileWriter(scanner.next());
+                        fileWriter.write(gost.getA() + "\n");
+                        fileWriter.write(gost.getQ().toString() + "\n");
+                        fileWriter.write(gost.getP().toString() + "\n");
+                        fileWriter.write(gost.getY().toString() + "\n");
+                        fileWriter.close();
+
+                        fileWriter = new FileWriter(signatureName);
+                        for(String[] s: gost.encoding(new HashFile(new File(fileName)))){
+                            fileWriter.write(s[0] + "\n");
+                            fileWriter.write(s[1] + "\n");
+                        }
+                        fileWriter.close();
+                        break;
+                    case 6:
+                        System.out.print("File name: ");
+                        fileName = scanner.next();
+                        System.out.print("Signature file: ");
+                        signatureName = scanner.next();
+                        System.out.print("Keys user file: ");
+                        fileScanner = new Scanner(new File(scanner.next()));
+                        Gost gost1 = new Gost(new BigInteger(fileScanner.next()),
+                                new BigInteger(fileScanner.next()),
+                                new BigInteger(fileScanner.next()),
+                                new BigInteger(fileScanner.next()));
+                        fileScanner.close();
+
+                        fileScanner = new Scanner(new File(signatureName));
+                        LinkedList<BigInteger[]> gostList = new LinkedList<>();
+                        BigInteger[] temp1;
+                        while (fileScanner.hasNext()) {
+                            temp1 = new BigInteger[2];
+                            temp1[0] = new BigInteger(fileScanner.next());
+                            temp1[1] = new BigInteger(fileScanner.next());
+                            gostList.add(temp1);
+                        }
+                        fileScanner.close();
+
+                        System.out.println("Valid signature: " +
+                                gost1.validSignature(gostList.toArray(BigInteger[][]::new),
+                                        new HashFile(new File(fileName))));
                         break;
                     case 0:
                         flag = false;
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
