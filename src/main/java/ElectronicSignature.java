@@ -5,6 +5,7 @@ import hashFunction.HashFile;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
 

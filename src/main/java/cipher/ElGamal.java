@@ -5,6 +5,8 @@ import baseAlghoritms.SpecialMath;
 import hashFunction.HashFile;
 import org.w3c.dom.ls.LSOutput;
 
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Random;
 
 public class ElGamal {
@@ -39,14 +41,14 @@ public class ElGamal {
         for (int i = 0; i < result.length; i++) {
             do {
                 k = Math.abs(random.nextInt()) % (p - 2) + 1;
-                arr = SpecialMath.nod(k, p - 1);
-                inversion = (arr[1] > 0 ? arr[1] : arr[1] % (p - 1) + (p - 1));
-            } while (arr[0] != 1 || (long) k * inversion % (p - 1) != 1);
+                arr = SpecialMath.nod( p - 1, k);
+                inversion = (arr[2] > 0 ? arr[2] : arr[2] % (p - 1) + (p - 1));
+            } while (arr[0] != 1);
             r = SpecialMath.powOnModule(g, k, p);
-            u = (int) ((hashFile.getData()[i] - (long) c * r) % (p - 1));
+            u = (int) (hashFile.getData()[i] - (long) c * r % (p - 1));
             if (u < 0)
-                u += p - 1;
-            s = inversion * u % (p - 1);
+                u = u % (p- 1) + (p - 1);
+            s = (int)((long) inversion * u % (p - 1));
             result[i][0] = r;
             result[i][1] = s;
         }
@@ -55,8 +57,9 @@ public class ElGamal {
 
     public int[] decodingHash(int[][] encoding) {
         int[] result = new int[encoding.length];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = (int) ((Math.pow(otherKey, encoding[i][0]) * Math.pow(encoding[i][0], encoding[i][1])) % p);
+        for (int i = 0, f, s; i < result.length; i++) {
+            result[i] = (int)((long)SpecialMath.powOnModule(otherKey, encoding[i][0], p)
+                    * SpecialMath.powOnModule(encoding[i][0], encoding[i][1], p) % p);
         }
         return result;
     }

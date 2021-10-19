@@ -21,9 +21,10 @@ public class RSA {
         fi = (p - 1) * (q - 1);
         do {
             publicKey = Math.abs(random.nextInt()) % (n - 1) + 1;
-            nodResult = SpecialMath.nod(fi, publicKey);
-            c = (nodResult[1] > 0? nodResult[1]: nodResult[1] % publicKey + publicKey);
-        } while (nodResult[0] != 1 || ((long) c * publicKey) % fi != 1);
+            nodResult = SpecialMath.nod(publicKey, fi);
+            c = (publicKey > fi? nodResult[1] > 0? nodResult[1]: nodResult[1] % fi + fi:
+                    nodResult[2] > 0? nodResult[2]: nodResult[2] % fi + fi);
+        } while (nodResult[0] != 1);
     }
 
     public int encoding(byte message){

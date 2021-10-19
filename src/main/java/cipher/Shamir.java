@@ -17,8 +17,8 @@ public class Shamir {
         do {
             c = Math.abs(random.nextInt());
             t = SpecialMath.nod(c, p - 1);
-            d = (t[1] > 0 ? t[1] : t[1] % (p - 1) + (p - 1));
-        } while (t[0] != 1 || (long) c * d % (p - 1) != 1);
+            d = (c > p - 1? t[1] > 0 ? t[1] : t[1] % (p - 1) + (p - 1): t[2] > 0 ? t[2] : t[2] % (p - 1) + (p - 1));
+        } while (t[0] != 1);
     }
 
     public int encoding(byte message) {
